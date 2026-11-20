@@ -307,4 +307,16 @@ Python Student Project
 
 
 No license has been selected yet.
+## Application Screenshots
 
+### Screening Dashboard
+![Dashboard](screenshots/dashboard_overview.png)
+
+### Resume Upload
+![Resume Upload](screenshots/resume_upload.png)
+
+### Candidate Rankings
+![Candidate Rankings](screenshots/candidate_rankings.png)
+
+### Candidate Shortlisting
+![Candidate Shortlisting](screenshots/candidate_shortlisting.png)
