@@ -1,4 +1,4 @@
-\# Automated Resume Screening Tool
+# Automated Resume Screening Tool
 
 
 
@@ -10,7 +10,7 @@ The project includes a Streamlit dashboard and a command-line application.
 
 
 
-\## Project Overview
+## Project Overview
 
 
 
@@ -22,15 +22,15 @@ The application processes sample resumes, identifies candidate skills and experi
 
 
 
-\*\*Project Type:\*\* Python Automation / HR Technology / Resume Screening
+**Project Type:** Python Automation / HR Technology / Resume Screening
 
 
 
-\*\*Purpose:\*\* Educational and portfolio project using synthetic candidate data.
+**Purpose:** Educational and portfolio project using synthetic candidate data.
 
 
 
-\## Key Features
+## Key Features
 
 
 
@@ -60,7 +60,7 @@ The application processes sample resumes, identifies candidate skills and experi
 
 
 
-\## Technologies Used
+## Technologies Used
 
 
 
@@ -80,7 +80,7 @@ The application processes sample resumes, identifies candidate skills and experi
 
 
 
-\## Candidate Matching Method
+## Candidate Matching Method
 
 
 
@@ -104,13 +104,13 @@ Candidates are classified into:
 
 
 
-\- \*\*Highly Matched:\*\* 80% or higher
+\- **Highly Matched:** 80% or higher
 
-\- \*\*Moderately Matched:\*\* 60% to below 80%
+\- **Moderately Matched:** 60% to below 80%
 
-\- \*\*Low Match:\*\* Below 60%
+\- **Low Match:** Below 60%
 
-\- \*\*Insufficient Data:\*\* When a score cannot be calculated
+\- **Insufficient Data:** When a score cannot be calculated
 
 
 
@@ -118,11 +118,11 @@ These scores are demonstration heuristics and should not be treated as objective
 
 
 
-\## Installation
+## Installation
 
 
 
-\### 1. Clone the repository
+### 1. Clone the repository
 
 
 
@@ -140,7 +140,7 @@ Replace `YOUR\_USERNAME` with your GitHub username after creating the repository
 
 
 
-\### 2. Create a virtual environment
+### 2. Create a virtual environment
 
 
 
@@ -152,7 +152,7 @@ python -m venv venv
 
 
 
-\### 3. Activate the virtual environment
+### 3. Activate the virtual environment
 
 
 
@@ -168,7 +168,7 @@ venv\\Scripts\\activate
 
 
 
-\### 4. Install dependencies
+### 4. Install dependencies
 
 
 
@@ -180,11 +180,11 @@ python -m pip install -r requirements.txt
 
 
 
-\## Running the Application
+## Running the Application
 
 
 
-\### Streamlit Dashboard
+### Streamlit Dashboard
 
 
 
@@ -200,7 +200,7 @@ Upload sample resumes, select a job description, and review the candidate matchi
 
 
 
-\### Command-Line Application
+### Command-Line Application
 
 
 
@@ -216,7 +216,7 @@ This processes the sample resumes and generates screening reports.
 
 
 
-\## Screening Reports
+## Screening Reports
 
 
 
@@ -234,7 +234,7 @@ The command-line application also generates reports in the `reports` directory.
 
 
 
-\## Sample Data
+## Sample Data
 
 
 
@@ -246,7 +246,7 @@ No real applicant tracking system or private recruitment database is required.
 
 
 
-\## Project Limitations
+## Project Limitations
 
 
 
@@ -262,7 +262,7 @@ No real applicant tracking system or private recruitment database is required.
 
 
 
-\## Future Improvements
+## Future Improvements
 
 
 
@@ -282,7 +282,7 @@ No real applicant tracking system or private recruitment database is required.
 
 
 
-\## Project Goal
+## Project Goal
 
 
 
@@ -294,7 +294,7 @@ It is intended as a portfolio project for Python development, data analysis, aut
 
 
 
-\## Author
+## Author
 
 
 
@@ -302,7 +302,7 @@ Python Student Project
 
 
 
-\## License
+## License
 
 
 
