@@ -1,0 +1,40 @@
+
+{
+  "python_developer": {
+    "job_title": "Python Developer",
+    "job_description": "job_descriptions/python_developer.txt",
+    "required_skills": [
+      "Python",
+      "SQL",
+      "Git",
+      "Pandas",
+      "NumPy"
+    ],
+    "preferred_skills": [
+      "Machine Learning",
+      "Data Analysis",
+      "REST APIs",
+      "Automation"
+    ],
+    "minimum_experience_years": 2,
+    "review_threshold": 60
+  },
+  "data_analyst": {
+    "job_title": "Data Analyst",
+    "job_description": "job_descriptions/data_analyst.txt",
+    "required_skills": [
+      "Python",
+      "SQL",
+      "Excel",
+      "Power BI",
+      "Pandas"
+    ],
+    "preferred_skills": [
+      "Data Visualization",
+      "Statistics",
+      "Machine Learning"
+    ],
+    "minimum_experience_years": 2,
+    "review_threshold": 60
+  }
+}

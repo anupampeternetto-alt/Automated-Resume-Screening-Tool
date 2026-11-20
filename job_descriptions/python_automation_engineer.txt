@@ -1,0 +1,21 @@
+﻿Job Title: Python Automation Engineer
+Department: Quality Assurance and Automation
+Employment Type: Full-Time
+
+Minimum Experience: 3 years
+
+Education: B.Tech or B.E. in Computer Science, Information Technology, or related field
+
+Required Skills: Python, Selenium, Pytest, Git, REST APIs
+
+Preferred Skills: Automation, SQL, CI/CD, API Testing
+
+Responsibilities:
+Develop and maintain automated testing frameworks.
+Create automated test scripts using Python and Selenium.
+Perform API testing and integration testing.
+Use Pytest for automated test execution.
+Collaborate with development and QA teams.
+
+Job Summary:
+We are seeking a Python Automation Engineer with at least 3 years of experience in Python scripting, Selenium automation, Pytest testing frameworks, REST API integration, and software testing.

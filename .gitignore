@@ -1,0 +1,40 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Streamlit configuration and secrets
+.streamlit/secrets.toml
+
+# Environment variables
+.env
+.env.*
+
+# Temporary files
+*.tmp
+*.log
+
+# Local backups
+*_backup.txt
+*.bak
+
+# Generated reports
+reports/*.csv
+reports/*.json
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store                                                         # Development backups
+app_backup.py
+src_backup/
+
+# Temporary repair scripts
+fix_imports.py
+Thumbs.db                                                                               src/resume_parser_backup.py                                     *_backup.py                                                                                                                                                                                                             src/resume_parser_backup.py
+
+*_backup.py

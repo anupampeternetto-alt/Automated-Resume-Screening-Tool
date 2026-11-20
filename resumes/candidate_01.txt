@@ -1,0 +1,8 @@
+﻿Name: Rahul Sharma
+Email: rahul.sharma@example.com
+Role: Python Developer
+Experience: 3 years
+Education: B.Tech in Computer Science
+Skills: Python, Pandas, NumPy, SQL, Git, Machine Learning, Data Analysis
+Projects: Data Analysis Dashboard, Python Automation Scripts
+Summary: Python Developer with 3 years of experience in Python programming, data analysis, automation, and SQL database operations.

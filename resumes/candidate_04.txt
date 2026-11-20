@@ -1,0 +1,8 @@
+﻿Name: Sneha Reddy
+Email: sneha.reddy@example.com
+Role: Machine Learning Engineer
+Experience: 3 years
+Education: M.Tech in Artificial Intelligence
+Skills: Python, Scikit-learn, TensorFlow, NLP, Pandas, NumPy, Machine Learning
+Projects: Resume Classification Model, Sentiment Analysis System
+Summary: Machine Learning Engineer with 3 years of experience in developing predictive models, natural language processing applications, machine learning algorithms, Python programming, and data preprocessing using Pandas and NumPy.

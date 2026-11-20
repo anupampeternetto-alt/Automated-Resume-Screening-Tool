@@ -1,0 +1,21 @@
+﻿Job Title: Python Developer
+Department: Software Development
+Employment Type: Full-Time
+
+Minimum Experience: 2 years
+
+Education: B.Tech or B.E. in Computer Science, Information Technology, or related field
+
+Required Skills: Python, SQL, Git, Pandas, NumPy
+
+Preferred Skills: Machine Learning, Data Analysis, REST APIs, Automation
+
+Responsibilities:
+Develop and maintain Python applications.
+Work with SQL databases and data processing.
+Use Git for version control.
+Build automation scripts and data analysis solutions.
+Collaborate with development teams.
+
+Job Summary:
+We are seeking a Python Developer with at least 2 years of experience in Python programming, SQL databases, data processing, and software development.

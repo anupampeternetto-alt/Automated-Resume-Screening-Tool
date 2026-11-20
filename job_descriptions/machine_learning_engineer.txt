@@ -1,0 +1,21 @@
+﻿Job Title: Machine Learning Engineer
+Department: Artificial Intelligence and Machine Learning
+Employment Type: Full-Time
+
+Minimum Experience: 2 years
+
+Education: B.Tech or M.Tech in Computer Science, Artificial Intelligence, Data Science, or related field
+
+Required Skills: Python, Scikit-learn, Pandas, NumPy, Machine Learning
+
+Preferred Skills: TensorFlow, NLP, Deep Learning, Data Preprocessing
+
+Responsibilities:
+Develop and train machine learning models.
+Clean and preprocess datasets using Python and Pandas.
+Implement machine learning algorithms using Scikit-learn.
+Build predictive analytics and classification models.
+Collaborate with data science and software engineering teams.
+
+Job Summary:
+We are seeking a Machine Learning Engineer with at least 2 years of experience in Python programming, machine learning algorithms, predictive modeling, data preprocessing, and artificial intelligence applications.

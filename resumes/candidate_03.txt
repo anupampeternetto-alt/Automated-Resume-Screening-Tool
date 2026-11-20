@@ -1,0 +1,8 @@
+﻿Name: Arjun Verma
+Email: arjun.verma@example.com
+Role: Python Automation Engineer
+Experience: 4 years
+Education: B.Tech in Information Technology
+Skills: Python, Selenium, Pytest, Git, REST APIs, Automation, SQL
+Projects: Web Testing Framework, Automated Reporting System
+Summary: Python Automation Engineer with 4 years of experience in Python scripting, Selenium web automation, Pytest testing frameworks, REST API integration, SQL databases, and automated reporting.

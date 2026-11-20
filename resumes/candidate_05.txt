@@ -1,0 +1,8 @@
+﻿Name: Karan Malhotra
+Email: karan.malhotra@example.com
+Role: HR Executive
+Experience: 2 years
+Education: MBA in Human Resource Management
+Skills: Recruitment, Talent Acquisition, Communication, Excel, HR Analytics, Employee Engagement
+Projects: Recruitment Process Improvement, Employee Engagement Survey
+Summary: HR Executive with 2 years of experience in recruitment, talent acquisition, employee engagement, HR analytics, interview coordination, and human resource management.

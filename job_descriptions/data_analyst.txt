@@ -1,0 +1,21 @@
+﻿Job Title: Data Analyst
+Department: Data Analytics
+Employment Type: Full-Time
+
+Minimum Experience: 2 years
+
+Education: B.Sc in Statistics, Computer Science, Mathematics, or related field
+
+Required Skills: Python, SQL, Excel, Power BI, Pandas
+
+Preferred Skills: Data Visualization, Statistics, Machine Learning
+
+Responsibilities:
+Analyze business data and identify trends.
+Develop interactive dashboards using Power BI.
+Write SQL queries to extract and transform data.
+Clean and process datasets using Python and Pandas.
+Prepare analytical reports for business stakeholders.
+
+Job Summary:
+We are seeking a Data Analyst with at least 2 years of experience in SQL, Excel, Python, data visualization, and business intelligence reporting.

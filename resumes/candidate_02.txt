@@ -1,0 +1,8 @@
+﻿Name: Priya Mehta
+Email: priya.mehta@example.com
+Role: Data Analyst
+Experience: 2 years
+Education: B.Sc in Statistics
+Skills: Python, SQL, Excel, Power BI, Pandas, Data Visualization, Statistics
+Projects: Sales Analytics Dashboard, Customer Segmentation Analysis
+Summary: Data Analyst with 2 years of experience in data cleaning, statistical analysis, SQL queries, Excel reporting, Power BI dashboards, and Python-based data analysis.
