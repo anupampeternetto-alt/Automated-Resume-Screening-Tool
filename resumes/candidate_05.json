@@ -1,0 +1,20 @@
+{
+    "name": "Karan Malhotra",
+    "email": "karan.malhotra@example.com",
+    "role": "HR Executive",
+    "experience": "2 years",
+    "education": "MBA in Human Resource Management",
+    "skills": [
+        "Recruitment",
+        "Talent Acquisition",
+        "Communication",
+        "Excel",
+        "HR Analytics",
+        "Employee Engagement"
+    ],
+    "projects": [
+        "Recruitment Process Improvement",
+        "Employee Engagement Survey"
+    ],
+    "summary": "HR Executive with 2 years of experience in recruitment, talent acquisition, employee engagement, HR analytics, interview coordination, and human resource management."
+}

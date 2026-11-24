@@ -1,4 +1,4 @@
-import json
+﻿import json
 from pathlib import Path
 from uuid import uuid4
 
@@ -152,7 +152,7 @@ def ingest_folder(folder_path):
     if not folder.is_dir():
         raise ValueError("Resume folder does not exist.")
 
-    supported = {".pdf", ".docx", ".txt"}
+    supported = {".pdf", ".docx", ".txt", ".json"}
 
     results = []
 

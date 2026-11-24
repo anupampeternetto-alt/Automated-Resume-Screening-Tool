@@ -1,7 +1,42 @@
-
 from pathlib import Path
+import json
 import pdfplumber
 from docx import Document
+
+
+def extract_text_from_json(file_path):
+    """Extract text from a structured JSON resume."""
+    try:
+        with open(file_path, "r", encoding="utf-8-sig") as file:
+            data = json.load(file)
+
+        if not isinstance(data, dict):
+            raise ValueError("JSON resume must be an object.")
+
+        extracted_text = []
+
+        for key, value in data.items():
+            if value is None:
+                continue
+
+            if isinstance(value, list):
+                value = ", ".join(str(item) for item in value)
+
+            elif isinstance(value, dict):
+                value = json.dumps(value, ensure_ascii=False)
+
+            else:
+                value = str(value)
+
+            if value.strip():
+                label = key.replace("_", " ").title()
+                extracted_text.append(f"{label}: {value}")
+
+        return "\n".join(extracted_text)
+
+    except (OSError, ValueError, UnicodeError) as error:
+        print(f"JSON Error: {error}")
+        return ""
 
 
 def extract_text_from_txt(file_path):
@@ -13,6 +48,7 @@ def extract_text_from_txt(file_path):
     except (OSError, UnicodeError) as error:
         print(f"TXT Error: {error}")
         return ""
+
 
 def extract_text_from_docx(file_path):
     """Extract text from DOCX paragraphs and tables."""
@@ -51,7 +87,6 @@ def extract_text_from_docx(file_path):
         return ""
 
 
-
 def extract_text_from_pdf(file_path):
     """Extract text from a PDF resume."""
     try:
@@ -70,6 +105,7 @@ def extract_text_from_pdf(file_path):
         print(f"PDF Error: {error}")
         return ""
 
+
 def extract_resume_text(file_path):
     """Automatically extract text based on the resume format."""
     path = Path(file_path)
@@ -85,6 +121,9 @@ def extract_resume_text(file_path):
     elif extension == ".pdf":
         return extract_text_from_pdf(path)
 
+    elif extension == ".json":
+        return extract_text_from_json(path)
+
     else:
         print(f"Unsupported file format: {extension}")
         return ""
@@ -93,11 +132,16 @@ def extract_resume_text(file_path):
 if __name__ == "__main__":
     resume_folder = Path("resumes")
 
-    supported_extensions = {".txt", ".docx", ".pdf"}
+    supported_extensions = {
+        ".txt",
+        ".docx",
+        ".pdf",
+        ".json"
+    }
 
     resume_files = sorted(
         file_path
-        for file_path in resume_folder.iterdir()
+        for file_path in resume_folder.rglob("*")
         if file_path.is_file()
         and file_path.suffix.lower() in supported_extensions
     )
@@ -118,6 +162,7 @@ if __name__ == "__main__":
             print("Status: SUCCESS")
             print(f"Characters extracted: {len(extracted_text)}")
             print(f"Preview: {extracted_text[:80]}")
+
         else:
             failed += 1
             print("Status: FAILED")
@@ -126,5 +171,3 @@ if __name__ == "__main__":
     print(f"Total files: {len(resume_files)}")
     print(f"Successful: {successful}")
     print(f"Failed: {failed}")
-
-

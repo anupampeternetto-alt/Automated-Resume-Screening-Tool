@@ -1,4 +1,4 @@
-import json
+﻿import json
 from pathlib import Path
 
 import pytest
@@ -70,13 +70,13 @@ def test_cross_format_ingestion():
 def test_batch_ingestion():
     results = ingest_folder(RESUMES)
 
-    assert len(results) == 15
+    assert len(results) == 20
     assert sum(
         r["status"] == "INSERTED" for r in results
     ) == 5
     assert sum(
         r["status"] == "UPDATED" for r in results
-    ) == 10
+    ) == 15
 
     assert count_records("candidates") == 5
     assert count_records("resumes") == 5
@@ -86,7 +86,7 @@ def test_repeated_batch_ingestion():
     first = ingest_folder(RESUMES)
     second = ingest_folder(RESUMES)
 
-    assert len(first) == len(second) == 15
+    assert len(first) == len(second) == 20
     assert all(
         r["status"] == "UPDATED" for r in second
     )
@@ -159,3 +159,4 @@ def test_database_integrity():
 
     finally:
         connection.close()
+
