@@ -1,0 +1,25 @@
+﻿{
+    "name": "Aarav Demo",
+    "headline": "Python Developer",
+    "about": "Python developer with 3 years of experience in automation and data analysis.",
+    "experience": [
+        {
+            "title": "Python Developer",
+            "company": "Demo Technologies",
+            "duration": "3 years"
+        }
+    ],
+    "education": "B.Tech Computer Science",
+    "skills": [
+        "Python",
+        "SQL",
+        "Pandas",
+        "FastAPI",
+        "Docker",
+        "Git"
+    ],
+    "certifications": [
+        "Python Programming",
+        "AWS Cloud Practitioner"
+    ]
+}

@@ -70,29 +70,43 @@ def test_cross_format_ingestion():
 def test_batch_ingestion():
     results = ingest_folder(RESUMES)
 
-    assert len(results) == 20
+    assert len(results) == 21
+
     assert sum(
         r["status"] == "INSERTED" for r in results
-    ) == 5
+    ) == 6
+
     assert sum(
         r["status"] == "UPDATED" for r in results
     ) == 15
 
-    assert count_records("candidates") == 5
-    assert count_records("resumes") == 5
+    assert any(
+        r["name"] == "Aarav Demo"
+        for r in results
+    )
+
+    assert count_records("candidates") == 6
+    assert count_records("resumes") == 6
 
 
 def test_repeated_batch_ingestion():
     first = ingest_folder(RESUMES)
     second = ingest_folder(RESUMES)
 
-    assert len(first) == len(second) == 20
+    assert len(first) == len(second) == 21
+
     assert all(
         r["status"] == "UPDATED" for r in second
     )
 
-    assert count_records("candidates") == 5
-    assert count_records("resumes") == 5
+    assert {
+        r["candidate_id"] for r in first
+    } == {
+        r["candidate_id"] for r in second
+    }
+
+    assert count_records("candidates") == 6
+    assert count_records("resumes") == 6
 
 
 def test_structured_json_storage():
@@ -159,4 +173,43 @@ def test_database_integrity():
 
     finally:
         connection.close()
+
+def test_missing_email_ingestion(tmp_path):
+    path = tmp_path / "no_email.txt"
+    path.write_text(
+        "Name: Demo Candidate\n"
+        "Role: Python Developer\n"
+        "Skills: Python, SQL\n",
+        encoding="utf-8"
+    )
+
+    first = ingest_resume(path)
+    second = ingest_resume(path)
+
+    assert first["status"] == "INSERTED"
+    assert second["status"] == "UPDATED"
+    assert first["email"] is None
+    assert first["candidate_id"] == second["candidate_id"]
+    assert count_records("candidates") == 1
+
+
+def test_distinct_profiles_without_email(tmp_path):
+    first_path = tmp_path / "first.txt"
+    second_path = tmp_path / "second.txt"
+
+    first_path.write_text(
+        "Name: Demo Candidate\nSkills: Python",
+        encoding="utf-8"
+    )
+
+    second_path.write_text(
+        "Name: Demo Candidate\nSkills: Java",
+        encoding="utf-8"
+    )
+
+    first = ingest_resume(first_path)
+    second = ingest_resume(second_path)
+
+    assert first["candidate_id"] != second["candidate_id"]
+    assert count_records("candidates") == 2
 

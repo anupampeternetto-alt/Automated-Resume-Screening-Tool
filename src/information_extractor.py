@@ -2,50 +2,61 @@
 import re
 
 
-def extract_candidate_name(resume_text):
-    """Extract a candidate's name from a labeled resume."""
-    match = re.search(
-        r"^Name:\s*(.+)$",
-        resume_text,
-        re.IGNORECASE | re.MULTILINE
-    )
-
-    if match:
-        return match.group(1).strip()
+def extract_labeled_value(text, labels):
+    for label in labels:
+        match = re.search(
+            rf"^[ \t]*{re.escape(label)}:[ \t]*(.+)$",
+            text,
+            re.IGNORECASE | re.MULTILINE
+        )
+        if match:
+            return match.group(1).strip()
 
     return "Not Found"
 
+
+def extract_candidate_name(resume_text):
+    return extract_labeled_value(
+        resume_text, ["Name", "Full Name"]
+    )
+
+
 def extract_email(resume_text):
-    """Extract the first email address from resume text."""
     match = re.search(
         r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}",
         resume_text
     )
+    return match.group(0) if match else "Not Found"
 
-    if match:
-        return match.group(0)
-
-    return "Not Found"
 
 def extract_job_role(resume_text):
-    """Extract the job role from a labeled resume."""
-    match = re.search(
-        r"^Role:\s*(.+)$",
+    return extract_labeled_value(
         resume_text,
-        re.IGNORECASE | re.MULTILINE
+        ["Role", "Headline", "Job Title", "Position"]
     )
 
-    if match:
-        return match.group(1).strip()
-
-    return "Not Found"
 
 def extract_experience(resume_text):
-    """Extract years of experience from a labeled resume."""
-    match = re.search(
-        r"^Experience:\s*(\d+(?:\.\d+)?)\s*(?:years?|yrs?)\b",
+    value = extract_labeled_value(
         resume_text,
-        re.IGNORECASE | re.MULTILINE
+        ["Experience", "Total Experience", "Years Of Experience"]
+    )
+
+    pattern = r"(\d+(?:\.\d+)?)\s*\+?\s*(?:years?|yrs?)\b"
+
+    matches = re.findall(
+        pattern, value, re.IGNORECASE
+    )
+
+    if matches:
+        return max(float(item) for item in matches)
+
+    summary = extract_summary(resume_text)
+
+    match = re.search(
+        pattern + r"\s+(?:of\s+)?(?:work\s+|professional\s+)?experience",
+        summary,
+        re.IGNORECASE
     )
 
     if match:
@@ -53,70 +64,58 @@ def extract_experience(resume_text):
 
     return None
 
+
 def extract_education(resume_text):
-    """Extract education from a labeled resume."""
-    match = re.search(
-        r"^Education:\s*(.+)$",
+    return extract_labeled_value(
         resume_text,
-        re.IGNORECASE | re.MULTILINE
+        ["Education", "Qualification", "Degree"]
     )
 
-    if match:
-        return match.group(1).strip()
 
-    return "Not Found"
+def extract_list(resume_text, labels):
+    value = extract_labeled_value(
+        resume_text, labels
+    )
+
+    if value == "Not Found":
+        return []
+
+    return [
+        item.strip()
+        for item in value.split(",")
+        if item.strip()
+    ]
+
 
 def extract_skills(resume_text):
-    """Extract skills from a labeled resume."""
-    match = re.search(
-        r"^Skills:\s*(.+)$",
+    return extract_list(
         resume_text,
-        re.IGNORECASE | re.MULTILINE
+        ["Skills", "Technical Skills", "Core Skills"]
     )
 
-    if match:
-        skills_text = match.group(1).strip()
-        skills_list = [
-            skill.strip()
-            for skill in skills_text.split(",")
-            if skill.strip()
-        ]
-        return skills_list
-
-    return []
 
 def extract_projects(resume_text):
-    """Extract projects from a labeled resume."""
-    match = re.search(
-        r"^Projects:\s*(.+)$",
+    return extract_list(
         resume_text,
-        re.IGNORECASE | re.MULTILINE
+        ["Projects", "Personal Projects"]
     )
 
-    if match:
-        return [
-            project.strip()
-            for project in match.group(1).split(",")
-            if project.strip()
-        ]
-
-    return []
 
 def extract_summary(resume_text):
-    """Extract the professional summary from a labeled resume."""
-    match = re.search(
-        r"^Summary:\s*(.+)$",
+    return extract_labeled_value(
         resume_text,
-        re.IGNORECASE | re.MULTILINE
+        ["Summary", "About", "Professional Summary"]
     )
 
-    if match:
-        return match.group(1).strip()
 
-    return "Not Found"
+def extract_certifications(resume_text):
+    return extract_list(
+        resume_text,
+        ["Certifications", "Certificates", "Licenses"]
+    )
+
 
 def extract_candidate_information(resume_text):
-    """Extract all candidate information into a dictionary."""
     return {
         "name": extract_candidate_name(resume_text),
         "email": extract_email(resume_text),
@@ -125,37 +124,6 @@ def extract_candidate_information(resume_text):
         "education": extract_education(resume_text),
         "skills": extract_skills(resume_text),
         "projects": extract_projects(resume_text),
-        "summary": extract_summary(resume_text)
+        "summary": extract_summary(resume_text),
+        "certifications": extract_certifications(resume_text)
     }
-
-
-if __name__ == "__main__":
-    sample_resume = """
-Name: Rahul Sharma
-Email: rahul.sharma@example.com
-Role: Python Developer
-Experience: 3 years
-Education: B.Tech in Computer Science
-Skills: Python, Pandas, NumPy, SQL, Git, Machine Learning, Data Analysis
-Projects: Data Analysis Dashboard, Python Automation Scripts
-Summary: Python Developer with 3 years of experience in Python programming, data analysis, automation, and SQL database operations.
-"""
-
-    candidate = extract_candidate_information(sample_resume)
-
-    print("===== STRUCTURED CANDIDATE INFORMATION =====")
-
-    for key, value in candidate.items():
-        print(f"{key}: {value}")
-
-    assert candidate["name"] == "Rahul Sharma"
-    assert candidate["email"] == "rahul.sharma@example.com"
-    assert candidate["role"] == "Python Developer"
-    assert candidate["experience"] == 3.0
-    assert candidate["education"] == "B.Tech in Computer Science"
-    assert len(candidate["skills"]) == 7
-    assert len(candidate["projects"]) == 2
-    assert candidate["summary"].startswith("Python Developer")
-
-    print("\nSUCCESS: All 8 extraction checks passed!")
-

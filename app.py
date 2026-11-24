@@ -1,243 +1,294 @@
+
 import streamlit as st
-import sys
+import pandas as pd
+import plotly.express as px
 import tempfile
 import json
-import csv
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
-
-from resume_processor import process_resume
-from screening_pipeline import screen_candidate
-from candidate_ranker import rank_candidates
-from job_description_parser import parse_job_description
-from matching_engine import (
-    match_required_skills,
-    match_preferred_skills,
-    match_experience,
-    calculate_weighted_score,
-)
+from src.database import initialize_database
+from src.ingest import ingest_resume
+from src.job_store import save_job
+from src.feature_store import save_features
+from src.screening_pipeline import screen_candidate
+from src.job_description_parser import parse_job_description
 
 st.set_page_config(
-    page_title="Automated Resume Screening Tool",
+    page_title="AI Resume Screening Tool",
     page_icon="📄",
     layout="wide"
 )
 
-st.title("Automated Resume Screening Tool")
+ROOT = Path(__file__).resolve().parent
 
-st.write(
-    "An intelligent Python-based application for "
-    "resume screening, candidate matching, "
-    "ranking, and shortlisting."
+st.title("AI-Powered Resume Screening Tool")
+st.caption(
+    "Intelligent Recruitment Analytics | NLP | "
+    "Semantic Matching | Explainable AI"
 )
 
-st.divider()
-
-st.subheader("Screening Dashboard")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric("Total Candidates", 5)
-
-with col2:
-    st.metric("Highly Matched", 1)
-
-with col3:
-    st.metric("Moderately Matched", 2)
-
-st.success("Streamlit dashboard initialized successfully!")
-
-# Resume Upload Interface
-st.divider()
-
-st.header("Upload Candidate Resumes")
-
-uploaded_files = st.file_uploader(
-    "Choose resume files",
-    type=["pdf", "docx", "txt"],
-    accept_multiple_files=True
+st.info(
+    "Decision-support prototype. All results require "
+    "human verification. Scores are not hiring decisions."
 )
 
-if uploaded_files:
-    st.success(
-        f"{len(uploaded_files)} resume(s) uploaded successfully!"
+with st.sidebar:
+    st.header("Screening Configuration")
+
+    job_files = sorted(
+        (ROOT / "job_descriptions").glob("*.txt")
     )
 
-    for uploaded_file in uploaded_files:
-        st.write(f"File Name: {uploaded_file.name}")
-        st.write(f"File Size: {uploaded_file.size} bytes")
+    if not job_files:
+        st.error("No job descriptions found.")
+        st.stop()
 
-# Process Uploaded Resumes
-if uploaded_files:
-    st.subheader("Extracted Candidate Information")
-
-    for uploaded_file in uploaded_files:
-        try:
-            suffix = Path(uploaded_file.name).suffix.lower()
-
-            with tempfile.TemporaryDirectory() as temp_dir:
-                temp_path = Path(temp_dir) / f"uploaded_resume{suffix}"
-                temp_path.write_bytes(uploaded_file.getvalue())
-
-                candidate_data = process_resume(temp_path)
-
-            candidate_data["file_name"] = uploaded_file.name
-
-            st.markdown(f"**Resume: {uploaded_file.name}**")
-            st.json(candidate_data)
-
-            st.success("Candidate information extracted successfully!")
-
-        except Exception as error:
-            st.error(
-                f"Failed to process {uploaded_file.name}: {error}"
-            )
-# Job Description Selection
-st.divider()
-st.header("Select Job Description")
-
-project_root = Path(__file__).resolve().parent
-job_folder = project_root / "job_descriptions"
-
-job_files = sorted(job_folder.glob("*.txt"))
-
-if job_files:
     selected_job = st.selectbox(
-        "Choose a job:",
+        "Select Job Role",
         job_files,
-        format_func=lambda file: file.stem.replace("_", " ").title()
+        format_func=lambda p: p.stem.replace(
+            "_", " "
+        ).title()
     )
 
-    job_data = parse_job_description(selected_job)
-
-    st.subheader("Selected Job Details")
-    st.json(job_data)
-else:
-    st.warning("No job descriptions found.")                     # Candidate Matching Scores
-st.divider()
-st.header("Candidate Matching Scores")
-
-if uploaded_files and job_files:
-    screening_results = []
-
-    for uploaded_file in uploaded_files:
-        try:
-            suffix = Path(uploaded_file.name).suffix.lower()
-
-            with tempfile.TemporaryDirectory() as temp_dir:
-                temp_path = Path(temp_dir) / uploaded_file.name
-                temp_path.write_bytes(uploaded_file.getvalue())
-
-                result = screen_candidate(temp_path, selected_job)
-
-            screening_results.append(result)
-
-            st.subheader(uploaded_file.name)
-            st.json(result)
-
-        except Exception as error:
-            st.error(f"Screening failed: {error}")
-else:
-    st.info("Upload resumes and select a job to see matching scores.")                                                                                                                      # Candidate Ranking
-st.divider()
-st.header("Candidate Rankings")
-
-if uploaded_files and job_files:
-    ranked_results = sorted(
-        screening_results,
-        key=lambda candidate: candidate.get("score", {}).get("weighted_score") or 0,
-        reverse=True
+    uploaded_files = st.file_uploader(
+        "Upload synthetic resumes",
+        type=["pdf", "docx", "txt", "json"],
+        accept_multiple_files=True
     )
 
-    for rank, candidate in enumerate(ranked_results, start=1):
-        st.write(
-            f"Rank {rank}: "
-            f"{candidate.get('candidate_name', 'Unknown')} - "
-            f"{candidate.get('score', {}).get('weighted_score')}%"
+    persist = st.checkbox(
+        "Save screening features to SQLite",
+        value=False
+    )
+
+    run = st.button(
+        "Run AI Screening",
+        type="primary",
+        use_container_width=True
+    )
+
+    st.divider()
+    st.caption("AI Technologies")
+    st.write("spaCy NLP")
+    st.write("Sentence Transformers")
+    st.write("Cosine Similarity")
+    st.write("SQLite")
+    st.write("Plotly Analytics")
+
+with st.expander("Selected Job Description"):
+    st.json(parse_job_description(selected_job))
+
+if run:
+    st.session_state["results"] = []
+    st.session_state["errors"] = []
+    st.session_state["screened_job"] = selected_job.name
+
+    if not uploaded_files:
+        st.warning("Please upload at least one resume.")
+    else:
+        job_record = None
+
+        if persist:
+            try:
+                initialize_database()
+                job_record = save_job(selected_job)
+            except Exception as error:
+                st.error(f"Database setup failed: {error}")
+                st.stop()
+
+        progress = st.progress(0)
+
+        for index, uploaded in enumerate(uploaded_files):
+            try:
+                with tempfile.TemporaryDirectory() as folder:
+                    path = Path(folder) / Path(uploaded.name).name
+                    path.write_bytes(uploaded.getvalue())
+
+                    result = screen_candidate(
+                        path, selected_job
+                    )
+
+                    result["database_status"] = "Not requested"
+
+                    if persist:
+                        try:
+                            candidate = ingest_resume(path)
+
+                            saved = save_features(
+                                candidate["candidate_id"],
+                                job_record["job_id"],
+                                result["features"]
+                            )
+
+                            result["database_status"] = saved["status"]
+
+                        except Exception as error:
+                            result["database_status"] = (
+                                f"Storage failed: {error}"
+                            )
+
+                    st.session_state["results"].append(result)
+
+            except Exception as error:
+                st.session_state["errors"].append(
+                    f"{uploaded.name}: {error}"
+                )
+
+            progress.progress(
+                (index + 1) / len(uploaded_files)
+            )
+
+        progress.empty()
+
+results = st.session_state.get("results", [])
+errors = st.session_state.get("errors", [])
+
+for error in errors:
+    st.error(error)
+
+if results:
+    st.caption(
+        "Results for: "
+        + st.session_state["screened_job"]
+    )
+
+    st.header("Screening Overview")
+
+    rows = []
+
+    for number, result in enumerate(results, start=1):
+        evidence = result["explanations"]
+
+        rows.append({
+            "Record": f"Resume {number}",
+            "Candidate": result["candidate_name"],
+            "Resume": result["resume_file"],
+            "Required Skills (%)":
+                evidence["required_skill_match"],
+            "Preferred Skills (%)":
+                evidence["preferred_skill_match"],
+            "Semantic Similarity":
+                result["semantic_similarity"],
+            "Experience (Years)":
+                evidence["candidate_experience"],
+            "Human Review": "Required",
+            "Database": result["database_status"]
+        })
+
+    df = pd.DataFrame(rows)
+
+    col1, col2, col3, col4 = st.columns(4)
+
+    col1.metric("Processed Resumes", len(results))
+    col2.metric("Processing Errors", len(errors))
+    col3.metric("Human Review Required", len(results))
+    col4.metric(
+        "Database Saved",
+        sum(
+            r["database_status"] == "SAVED"
+            for r in results
         )
-else:
-    st.info("Upload resumes to see candidate rankings.")         # Candidate Shortlisting
-st.divider()
-st.header("Candidate Shortlisting")
-
-if uploaded_files and job_files:
-    for candidate in ranked_results:
-        score = candidate.get("score", {}).get("weighted_score")
-
-        if score is None:
-            status = "Insufficient Data"
-        elif score >= 80:
-            status = "Highly Matched"
-        elif score >= 60:
-            status = "Moderately Matched"
-        else:
-            status = "Low Match"
-
-        st.write(
-            f"{candidate.get('candidate_name', 'Unknown')}: "
-            f"{status} ({score}%)"
-        )
-else:
-    st.info("Upload resumes to see shortlisting results.")       # JSON Report Download
-st.divider()
-st.header("Download Screening Reports")
-
-if uploaded_files and job_files:
-    json_report = json.dumps(
-        ranked_results,
-        indent=4,
-        default=str
     )
 
-    st.download_button(
-        label="Download JSON Report",
-        data=json_report,
-        file_name="candidate_screening_report.json",
-        mime="application/json"
-    )
-else:
-    st.info("Upload resumes to download reports.")               # CSV Report Download
-if uploaded_files and job_files:
-    import io
+    st.divider()
 
-    csv_output = io.StringIO()
-    writer = csv.writer(csv_output)
-
-    writer.writerow([
-        "Rank",
-        "Candidate Name",
-        "Resume File",
-        "Job Title",
-        "Matching Score",
-        "Status"
+    overview, analytics, evidence_tab, reports = st.tabs([
+        "Screening Overview",
+        "AI Analytics",
+        "Explainable AI",
+        "Reports"
     ])
 
-    for rank, candidate in enumerate(ranked_results, start=1):
-        score = candidate.get("score", {}).get("weighted_score")
+    with overview:
+        st.subheader("Candidate Evidence")
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True
+        )
 
-        if score is None:
-            status = "Insufficient Data"
-        elif score >= 80:
-            status = "Highly Matched"
-        elif score >= 60:
-            status = "Moderately Matched"
-        else:
-            status = "Low Match"
+    with analytics:
+        st.subheader("Job-Related Skill Evidence")
 
-        writer.writerow([
-            rank,
-            candidate.get("candidate_name", "Unknown"),
-            candidate.get("resume_file", ""),
-            candidate.get("job_title", ""),
-            score,
-            status
-        ])
+        chart_data = df.melt(
+            id_vars=["Record"],
+            value_vars=[
+                "Required Skills (%)",
+                "Preferred Skills (%)"
+            ],
+            var_name="Skill Category",
+            value_name="Match Percentage"
+        )
 
-    st.download_button(
-        label="Download CSV Report",
-        data=csv_output.getvalue(),
-        file_name="candidate_screening_report.csv",
-        mime="text/csv"
-    )                                                                          
+        fig = px.bar(
+            chart_data,
+            x="Record",
+            y="Match Percentage",
+            color="Skill Category",
+            barmode="group",
+            range_y=[0, 100],
+            title="Required and Preferred Skill Evidence"
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+        fig2 = px.bar(
+            df,
+            x="Record",
+            y="Semantic Similarity",
+            range_y=[-1, 1],
+            title="Semantic Similarity Evidence"
+        )
+
+        st.plotly_chart(fig2, use_container_width=True)
+
+        st.caption(
+            "Semantic similarity measures text relevance, "
+            "not competence or probability of hiring success."
+        )
+
+    with evidence_tab:
+        st.subheader("Explainable AI Evidence")
+
+        for number, result in enumerate(results, start=1):
+            with st.expander(
+                f"Resume {number}: {result['candidate_name']}"
+            ):
+                st.json(result["explanations"])
+
+                st.write(
+                    "Extraction method:",
+                    result["extraction_method"]
+                )
+
+                st.warning("Human verification required.")
+
+    with reports:
+        st.subheader("Export Screening Evidence")
+
+        st.download_button(
+            "Download CSV Report",
+            df.to_csv(index=False),
+            file_name="ai_screening_report.csv",
+            mime="text/csv"
+        )
+
+        st.download_button(
+            "Download JSON Report",
+            json.dumps(results, indent=4, default=str),
+            file_name="ai_screening_report.json",
+            mime="application/json"
+        )
+
+else:
+    st.info(
+        "Upload sample resumes, select a job role, "
+        "and click Run AI Screening."
+    )
+
+st.divider()
+st.caption(
+    "AI-Enabled Resume Screening | "
+    "Python Portfolio Project | Human-in-the-loop"
+)

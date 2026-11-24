@@ -1,4 +1,6 @@
-﻿import json
+
+import json
+import hashlib
 from pathlib import Path
 from uuid import uuid4
 
@@ -25,13 +27,20 @@ def ingest_resume(file_path):
         raise ValueError("Candidate name could not be extracted.")
 
     if not email or email == "Not Found":
-        raise ValueError("Candidate email could not be extracted.")
-
-    email = email.strip().lower()
+        email = None
+    else:
+        email = email.strip().lower()
 
     candidate["email"] = email
     candidate["file_name"] = path.name
     candidate["years_exp"] = candidate.get("experience")
+
+    # Stable identifier for identical profiles without email.
+    fingerprint = hashlib.sha256(
+        raw_text.strip().encode("utf-8")
+    ).hexdigest()
+
+    fallback_id = "CAN-NOEMAIL-" + fingerprint
 
     parsed_json = json.dumps(
         candidate,
@@ -43,16 +52,26 @@ def ingest_resume(file_path):
     try:
         connection.execute("BEGIN IMMEDIATE")
 
-        existing = connection.execute(
-            """
-            SELECT id FROM candidates
-            WHERE LOWER(TRIM(email)) = ?
-            """,
-            (email,)
-        ).fetchall()
+        if email:
+            existing = connection.execute(
+                """
+                SELECT id FROM candidates
+                WHERE LOWER(TRIM(email)) = ?
+                """,
+                (email,)
+            ).fetchall()
+
+        else:
+            existing = connection.execute(
+                """
+                SELECT id FROM candidates
+                WHERE id = ? AND email IS NULL
+                """,
+                (fallback_id,)
+            ).fetchall()
 
         if len(existing) > 1:
-            raise ValueError("Multiple candidates share this email.")
+            raise ValueError("Multiple matching candidates found.")
 
         if existing:
             candidate_id = existing[0]["id"]
@@ -91,7 +110,11 @@ def ingest_resume(file_path):
             status = "UPDATED"
 
         else:
-            candidate_id = "CAN-" + uuid4().hex
+            candidate_id = (
+                "CAN-" + uuid4().hex
+                if email
+                else fallback_id
+            )
 
             connection.execute(
                 """
