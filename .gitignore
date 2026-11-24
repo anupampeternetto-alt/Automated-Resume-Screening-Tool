@@ -40,3 +40,12 @@ Thumbs.db                                                                       
 *_backup.py
 
 README_backup.md
+
+.venv311/
+
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3

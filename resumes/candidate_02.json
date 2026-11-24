@@ -1,0 +1,21 @@
+{
+    "name": "Priya Mehta",
+    "email": "priya.mehta@example.com",
+    "role": "Data Analyst",
+    "experience": "2 years",
+    "education": "B.Sc in Statistics",
+    "skills": [
+        "Python",
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Pandas",
+        "Data Visualization",
+        "Statistics"
+    ],
+    "projects": [
+        "Sales Analytics Dashboard",
+        "Customer Segmentation Analysis"
+    ],
+    "summary": "Data Analyst with 2 years of experience in data cleaning, statistical analysis, SQL queries, Excel reporting, Power BI dashboards, and Python-based data analysis."
+}

@@ -1,0 +1,21 @@
+{
+    "name": "Sneha Reddy",
+    "email": "sneha.reddy@example.com",
+    "role": "Machine Learning Engineer",
+    "experience": "3 years",
+    "education": "M.Tech in Artificial Intelligence",
+    "skills": [
+        "Python",
+        "Scikit-learn",
+        "TensorFlow",
+        "NLP",
+        "Pandas",
+        "NumPy",
+        "Machine Learning"
+    ],
+    "projects": [
+        "Resume Classification Model",
+        "Sentiment Analysis System"
+    ],
+    "summary": "Machine Learning Engineer with 3 years of experience in developing predictive models, natural language processing applications, machine learning algorithms, Python programming, and data preprocessing using Pandas and NumPy."
+}

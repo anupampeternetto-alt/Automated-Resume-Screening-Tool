@@ -1,0 +1,21 @@
+{
+    "name": "Rahul Sharma",
+    "email": "rahul.sharma@example.com",
+    "role": "Python Developer",
+    "experience": "3 years",
+    "education": "B.Tech in Computer Science",
+    "skills": [
+        "Python",
+        "Pandas",
+        "NumPy",
+        "SQL",
+        "Git",
+        "Machine Learning",
+        "Data Analysis"
+    ],
+    "projects": [
+        "Data Analysis Dashboard",
+        "Python Automation Scripts"
+    ],
+    "summary": "Python Developer with 3 years of experience in Python programming, data analysis, automation, and SQL database operations."
+}

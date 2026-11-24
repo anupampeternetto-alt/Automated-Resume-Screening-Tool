@@ -1,0 +1,21 @@
+{
+    "name": "Arjun Verma",
+    "email": "arjun.verma@example.com",
+    "role": "Python Automation Engineer",
+    "experience": "4 years",
+    "education": "B.Tech in Information Technology",
+    "skills": [
+        "Python",
+        "Selenium",
+        "Pytest",
+        "Git",
+        "REST APIs",
+        "Automation",
+        "SQL"
+    ],
+    "projects": [
+        "Web Testing Framework",
+        "Automated Reporting System"
+    ],
+    "summary": "Python Automation Engineer with 4 years of experience in Python scripting, Selenium web automation, Pytest testing frameworks, REST API integration, SQL databases, and automated reporting."
+}

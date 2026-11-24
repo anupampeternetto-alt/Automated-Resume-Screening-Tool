@@ -1,322 +1,377 @@
-# Automated Resume Screening Tool
 
-
-
-A Python-based resume screening application that extracts candidate information, compares resumes against job requirements, calculates matching scores, ranks candidates, and generates screening reports.
-
-
-
-The project includes a Streamlit dashboard and a command-line application.
-
-
+# AI-Powered Automated Resume Screening & Intelligent Recruitment Analytics System
 
 ## Project Overview
 
+An AI-enabled, industry-oriented recruitment decision-support system developed using Python, Natural Language Processing (NLP), Sentence Transformers, RapidFuzz, SQLite, Streamlit, and Plotly.
 
+The system automates resume processing, candidate information extraction, skill matching, semantic similarity analysis, candidate ranking, and recruitment analytics.
 
-The Automated Resume Screening Tool demonstrates how Python can help automate repetitive tasks in the recruitment process.
+It demonstrates how Artificial Intelligence and automation can assist recruiters in reducing repetitive manual screening tasks while maintaining human oversight.
 
+## Project Classification
 
+- AI-Enabled Application
+- Industry-Oriented Python Project
+- HR Technology and Recruitment Automation
+- Natural Language Processing
+- Explainable AI
+- Intelligent Recruitment Analytics
+- Educational and Professional Portfolio Prototype
 
-The application processes sample resumes, identifies candidate skills and experience, compares them with job descriptions, and generates structured screening results.
+## Business Problem
 
+Recruiters frequently receive large numbers of resumes for individual job openings.
 
+Manual resume screening can be time-consuming, inconsistent, and difficult to scale.
 
-**Project Type:** Python Automation / HR Technology / Resume Screening
-
-
-
-**Purpose:** Educational and portfolio project using synthetic candidate data.
-
-
+This project demonstrates an intelligent screening workflow that helps organize candidate information, identify relevant skills, compare job requirements, and generate explainable screening results.
 
 ## Key Features
 
+### Intelligent Resume Processing
 
+- PDF resume ingestion
+- DOCX resume ingestion
+- TXT resume ingestion
+- JSON resume ingestion
+- Synthetic LinkedIn-style JSON profile ingestion
+- Automatic file format detection
+- Batch resume processing
+- Structured candidate information extraction
+- Missing-email candidate support
 
-\- Resume text extraction from PDF, DOCX, and TXT files
+### Artificial Intelligence and NLP
 
-\- Candidate information extraction
+- spaCy Natural Language Processing
+- Named Entity Recognition
+- Hybrid regex and NLP extraction
+- Technical skills dictionary
+- RapidFuzz skill correction suggestions
+- Sentence Transformer embeddings
+- all-MiniLM-L6-v2 pretrained AI model
+- 384-dimensional semantic embeddings
+- Cosine similarity analysis
+- Certification extraction
+- Professional summary extraction
+- Experience extraction
 
-\- Job description parsing
+### Intelligent Screening
 
-\- Required and preferred skills matching
+- Required skills matching
+- Preferred skills matching
+- Experience-based matching
+- Weighted candidate scoring
+- Candidate ranking
+- Semantic similarity analysis
+- Missing skills identification
+- Explainable screening evidence
+- Human-in-the-loop verification
 
-\- Experience matching
+### Database Management
 
-\- Weighted candidate scoring
+- SQLite relational database
+- Candidate information storage
+- Resume information storage
+- Job description storage
+- AI feature persistence
+- Email-based duplicate prevention
+- SHA-256 fingerprinting for identical profiles without email
+- Foreign key enforcement
+- Transaction management
+- Database integrity validation
 
-\- Candidate ranking
+### Interactive Recruitment Dashboard
 
-\- Automatic shortlisting classification
+- Streamlit recruiter dashboard
+- Multiple resume uploads
+- Job description selection
+- Candidate screening results
+- Interactive Plotly visualizations
+- Semantic similarity analytics
+- Candidate ranking
+- Explainable AI insights
+- CSV report downloads
+- JSON report downloads
 
-\- Interactive Streamlit dashboard
+## Technology Stack
 
-\- Multiple resume uploads
+| Technology | Purpose |
+|---|---|
+| Python 3.11 | Core application development |
+| Streamlit | Interactive dashboard |
+| spaCy | Natural Language Processing |
+| Sentence Transformers | Semantic embeddings |
+| all-MiniLM-L6-v2 | Pretrained AI model |
+| RapidFuzz | Fuzzy skill matching |
+| Scikit-learn | Similarity calculations |
+| PyTorch | AI model execution |
+| Transformers | Pretrained model infrastructure |
+| SQLite | Relational database |
+| Plotly | Interactive analytics |
+| Pandas | Data processing |
+| NumPy | Numerical computation |
+| pdfplumber | PDF extraction |
+| python-docx | DOCX extraction |
+| Pytest | Automated software testing |
+| Git and GitHub | Version control |
 
-\- CSV and JSON report downloads
+## System Architecture
 
-\- Command-line execution
-
-
-
-## Technologies Used
-
-
-
-\- Python
-
-\- Streamlit
-
-\- pdfplumber
-
-\- python-docx
-
-\- Pandas
-
-\- NumPy
-
-\- CSV and JSON
-
-
+```text
+Resume Upload
+      |
+      v
+Multi-Format Resume Parser
+      |
+      v
+Hybrid NLP Extraction Engine
+      |
+      +--> Technical Skill Extraction
+      +--> Named Entity Recognition
+      +--> Certification Extraction
+      +--> Fuzzy Skill Suggestions
+      |
+      v
+Structured Candidate Information
+      |
+      v
+AI Feature Engineering
+      |
+      +--> Sentence Transformer Embeddings
+      +--> Semantic Similarity
+      +--> Rule-Based Matching
+      |
+      v
+Candidate Scoring and Ranking
+      |
+      v
+SQLite Database
+      |
+      v
+Streamlit Recruitment Dashboard
+      |
+      +--> Plotly Analytics
+      +--> Explainable AI Evidence
+      +--> CSV and JSON Reports
+      |
+      v
+Human Recruiter Review
+```
 
 ## Candidate Matching Method
 
-
-
-The application calculates a weighted matching score using three components:
-
-
+The rule-based screening score uses the following components:
 
 | Criteria | Weight |
-
-|---|---|
-
+|---|---:|
 | Required Skills | 60% |
-
 | Preferred Skills | 20% |
-
 | Experience | 20% |
+| Total | 100% |
 
+Semantic similarity is calculated separately using Sentence Transformer embeddings and cosine similarity.
 
+Fuzzy skill suggestions are presented as unverified corrections and require human review.
 
-Candidates are classified into:
+The screening scores are demonstration heuristics and do not represent objective measures of candidate suitability.
 
+## AI Model
 
+Model: all-MiniLM-L6-v2
 
-\- **Highly Matched:** 80% or higher
+Framework: Sentence Transformers
 
-\- **Moderately Matched:** 60% to below 80%
+Embedding dimensions: 384
 
-\- **Low Match:** Below 60%
+Similarity method: Cosine Similarity
 
-\- **Insufficient Data:** When a score cannot be calculated
+The model converts skill-related text into numerical embeddings to support semantic comparison between candidate skills and job requirements.
 
+## Automated Testing and Validation
 
+The latest local regression testing results were:
 
-These scores are demonstration heuristics and should not be treated as objective measures of candidate suitability.
+| Validation | Result |
+|---|---|
+| Automated tests | 45 |
+| Passed tests | 45 |
+| Failed tests | 0 |
+| Test pass rate | 100% |
+| Resume files ingested | 21 |
+| Unique synthetic candidates | 6 |
+| Supported file formats | 4 |
+| Hybrid NLP validation checks | 20 |
 
+Additional manual validation confirmed fuzzy matching suggestions for Pandass, Numppy, and Kubernets.
 
+These results demonstrate functionality on the project's synthetic test data. They do not establish real-world hiring accuracy.
 
 ## Installation
 
-
-
 ### 1. Clone the repository
 
-
-
-```bash
-
-git clone https://github.com/YOUR\_USERNAME/Automated-Resume-Screening-Tool.git
+```powershell
+git clone -b advanced-ai-upgrade https://github.com/anupampeternetto-alt/Automated-Resume-Screening-Tool.git
 
 cd Automated-Resume-Screening-Tool
-
 ```
 
+### 2. Create a Python virtual environment
 
+Python 3.11 is recommended.
 
-Replace `YOUR\_USERNAME` with your GitHub username after creating the repository.
-
-
-
-### 2. Create a virtual environment
-
-
-
-```bash
-
-python -m venv venv
-
+```powershell
+py -3.11 -m venv .venv311
 ```
 
+### 3. Install project dependencies
 
+```powershell
+.\.venv311\Scripts\python.exe -m pip install --upgrade pip
 
-### 3. Activate the virtual environment
-
-
-
-On Windows Command Prompt:
-
-
-
-```cmd
-
-venv\\Scripts\\activate
-
+.\.venv311\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
+### 4. Install the spaCy language model
 
-
-### 4. Install dependencies
-
-
-
-```bash
-
-python -m pip install -r requirements.txt
-
+```powershell
+.\.venv311\Scripts\python.exe -m spacy download en_core_web_sm
 ```
 
+### 5. Initialize the database
 
+```powershell
+.\.venv311\Scripts\python.exe -m src.database
+```
+
+An internet connection may be required during the first execution to download the pretrained Sentence Transformer model.
 
 ## Running the Application
 
-
-
 ### Streamlit Dashboard
 
-
-
-```bash
-
-python -m streamlit run app.py
-
+```powershell
+.\.venv311\Scripts\python.exe -m streamlit run app.py
 ```
 
+The dashboard normally opens at:
 
+http://localhost:8501
 
-Upload sample resumes, select a job description, and review the candidate matching results.
-
-
+Upload sample resumes, select job requirements, and review the screening results and analytics.
 
 ### Command-Line Application
 
-
-
-```bash
-
-python main.py
-
+```powershell
+.\.venv311\Scripts\python.exe main.py
 ```
 
+### Run Automated Tests
 
+```powershell
+.\.venv311\Scripts\python.exe -m pytest -q
+```
 
-This processes the sample resumes and generates screening reports.
+Latest verified result:
 
+```text
+45 passed
+```
 
-
-## Screening Reports
-
-
-
-The Streamlit application supports downloading:
-
-
-
-\- JSON reports containing detailed candidate screening results
-
-\- CSV reports containing candidate ranks, names, scores, and classifications
-
-
-
-The command-line application also generates reports in the `reports` directory.
-
-
-
-## Sample Data
-
-
-
-The project uses synthetic resumes and example job descriptions for demonstration and testing.
-
-
-
-No real applicant tracking system or private recruitment database is required.
-
-
-
-## Project Limitations
-
-
-
-\- Matching is primarily based on extracted information and predefined scoring rules.
-
-\- Resume formatting can affect text extraction accuracy.
-
-\- Scores do not independently establish a candidate's qualifications or suitability.
-
-\- The application is a demonstration project, not a production hiring decision system.
-
-\- Human review is necessary before making recruitment decisions.
-
-
-
-## Future Improvements
-
-
-
-\- More advanced natural language processing
-
-\- Semantic similarity matching
-
-\- Improved resume formatting support
-
-\- Additional job descriptions
-
-\- Interactive analytics and visualizations
-
-\- Automated testing
-
-\- Improved error handling
-
-
-
-## Project Goal
-
-
-
-This project demonstrates practical Python programming skills, file processing, automation, data extraction, rule-based matching, report generation, and interactive dashboard development.
-
-
-
-It is intended as a portfolio project for Python development, data analysis, automation, and HR technology opportunities.
-
-
-
-## Author
-
-
-
-Python Student Project
-
-
-
-## License
-
-
-
-No license has been selected yet.
 ## Application Screenshots
 
 ### Screening Dashboard
+
 ![Dashboard](screenshots/dashboard_overview.png)
 
 ### Resume Upload
+
 ![Resume Upload](screenshots/resume_upload.png)
 
 ### Candidate Rankings
+
 ![Candidate Rankings](screenshots/candidate_rankings.png)
 
 ### Candidate Shortlisting
+
 ![Candidate Shortlisting](screenshots/candidate_shortlisting.png)
+
+## Responsible AI and Human Oversight
+
+This application is designed as a recruitment decision-support prototype, not an autonomous hiring system.
+
+- Human review is required before recruitment decisions.
+- Fuzzy matching suggestions require verification.
+- Semantic similarity does not establish actual qualifications.
+- Missing information should not automatically disqualify candidates.
+- Synthetic candidate data is used for demonstration.
+- Screening results should not be treated as final hiring decisions.
+
+## Project Limitations
+
+- Resume formatting can affect extraction accuracy.
+- NLP models can incorrectly classify entities.
+- Scanned image-based resumes may require OCR.
+- Fuzzy matching can produce incorrect suggestions.
+- Profile fingerprinting identifies identical extracted text rather than real-world candidate identity.
+- Semantic similarity is separate from the current weighted ranking score.
+- Formal fairness and real-world recruitment accuracy have not been established.
+- Clean-environment installation requires further validation.
+- This project is not a production-ready enterprise recruitment platform.
+
+## Future Enhancements
+
+- FastAPI REST API
+- Next.js and Tailwind CSS frontend
+- Combined semantic and rule-based ranking
+- Advanced LinkedIn PDF profile extraction
+- Improved named entity recognition
+- ROC-AUC and PR-AUC evaluation
+- Top-K ranking evaluation
+- Docker containerization
+- Candidate consent and data deletion workflows
+- Formal fairness and bias evaluation
+- Cloud deployment
+- Recruiter feedback integration
+
+## Industry Applications
+
+- HR Technology
+- Recruitment Automation
+- Talent Acquisition Support
+- Resume Screening
+- Intelligent Document Processing
+- AI-Assisted Candidate Matching
+- Recruitment Analytics
+
+## Skills Demonstrated
+
+- Python Development
+- Artificial Intelligence Integration
+- Natural Language Processing
+- Semantic Search and Similarity
+- Data Processing
+- Feature Engineering
+- Database Management
+- Software Automation
+- Interactive Dashboard Development
+- Explainable AI
+- Automated Software Testing
+- Git and GitHub Version Control
+
+## Project Objective
+
+This project serves as practical proof of work demonstrating the application of Python, Artificial Intelligence, NLP, automation, database management, analytics, and software testing to a real-world business problem.
+
+It is intended as an industry-oriented portfolio project for opportunities in Python development, AI and NLP, data analytics, automation, and HR technology.
+
+## Author
+
+Anupam Peter Netto
+
+AI-Enabled Industry-Oriented Python Portfolio Project
+
+## License
+
+No open-source license has been selected.
