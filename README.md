@@ -279,24 +279,6 @@ Latest verified result:
 45 passed
 ```
 
-## Application Screenshots
-
-### Screening Dashboard
-
-![Dashboard](screenshots/dashboard_overview.png)
-
-### Resume Upload
-
-![Resume Upload](screenshots/resume_upload.png)
-
-### Candidate Rankings
-
-![Candidate Rankings](screenshots/candidate_rankings.png)
-
-### Candidate Shortlisting
-
-![Candidate Shortlisting](screenshots/candidate_shortlisting.png)
-
 ## Responsible AI and Human Oversight
 
 This application is designed as a recruitment decision-support prototype, not an autonomous hiring system.
